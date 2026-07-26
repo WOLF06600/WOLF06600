@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>❤️فقط میخام چیزی بگم❤️
-</title>
+<title>❤️⭐فقت خاستم چنتا چی بهت بگم⭐❤️</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=Lalezar&family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,15 +25,20 @@
   <div class="petal p4">💗</div>
   <div class="petal p5">🌸</div>
   <div class="petal p6">💗</div>
+
+   <div class="sparkle s1">✨</div>
+  <div class="sparkle s2">✨</div>
+  <div class="sparkle s3">✨</div>
+  <div class="petal p1">🌸</div>
+  <div class="petal p2">🌸</div>
+  <div class="petal p3">🌸</div>
+  <div class="petal p4">💗</div>
+  <div class="petal p5">🌸</div>
+  <div class="petal p6">💗</div>
 </div>
 
-<!-- charm gear icon for settings -->
-<button id="gearBtn" class="gear-charm" title="تنظیمات">
-  <span class="gear-icon">⚙️</span>
-</button>
-
 <main class="stage">
-  <h1 class="title">❤️فقط میخام چیزی بگم❤️</h1>
+  <h1 class="title">❤️⭐فقت خاستم چنتا چی بهت بگم⭐❤️</h1>
   <div class="ribbon-bookmark"></div>
 
   <div id="book" class="book">
@@ -55,94 +59,6 @@
 
   <div class="page-indicator" id="pageIndicator">صفحه ۱ از ۱</div>
 </main>
-
-<!-- Password gate -->
-<div id="lockOverlay" class="overlay hidden">
-  <div class="lock-card">
-    <div class="lock-charm">🔒</div>
-    <h2>این بخش خصوصیه!</h2>
-    <p>رمز کوچولوت رو وارد کن</p>
-    <input type="password" id="passInput" inputmode="numeric" maxlength="12" placeholder="••••••••••">
-    <div class="lock-error" id="lockError">رمز اشتباهه، دوباره امتحان کن 🌷</div>
-    <div class="lock-buttons">
-      <button id="passSubmit" class="btn-main">باز کن</button>
-      <button id="passCancel" class="btn-ghost">بیخیال</button>
-    </div>
-  </div>
-</div>
-
-<!-- Settings Panel -->
-<div id="settingsOverlay" class="overlay hidden">
-  <div class="settings-card">
-    <button id="closeSettings" class="close-x">✕</button>
-    <h2 class="settings-title">تنظیمات دفتر 🎀</h2>
-
-    <div class="settings-row">
-      <label>انتخاب صفحه</label>
-      <div class="page-select-row">
-        <select id="pageSelect"></select>
-        <button id="addPageBtn" class="btn-small">＋ صفحه جدید</button>
-        <button id="removePageBtn" class="btn-small btn-danger">－ حذف صفحه</button>
-      </div>
-    </div>
-
-    <div class="settings-row">
-      <label>زبان نوشته این صفحه</label>
-      <div class="lang-toggle">
-        <button class="lang-btn" data-lang="fa">فارسی</button>
-        <button class="lang-btn" data-lang="en">English</button>
-      </div>
-    </div>
-
-    <div class="settings-row">
-      <label>متن صفحه</label>
-      <textarea id="pageText" rows="4" placeholder="هر چی دوست داری اینجا بنویس..."></textarea>
-    </div>
-
-    <div class="settings-row">
-      <label>اندازه نوشته: <span id="fontSizeVal">18</span>px</label>
-      <input type="range" id="fontSize" min="12" max="34" value="18">
-    </div>
-
-    <div class="settings-row">
-      <label>🎵 صدا برای این صفحه</label>
-      <input type="file" id="audioInput" accept="audio/*">
-      <div id="audioStatus" class="status-hint">صدایی انتخاب نشده</div>
-      <audio id="audioPreviewPlayer" controls style="display:none; width:100%; margin-top:6px;"></audio>
-      <button id="removeAudioBtn" class="btn-small btn-danger">حذف صدا</button>
-    </div>
-
-    <div class="settings-row">
-      <label>🖼️ تصویر برای این صفحه</label>
-      <input type="file" id="imageInput" accept="image/*">
-      <button id="removeImageBtn" class="btn-small btn-danger">حذف تصویر</button>
-
-      <div class="image-controls">
-        <label>اندازه عرض تصویر: <span id="imgWidthVal">40%</span></label>
-        <input type="range" id="imgWidth" min="10" max="100" value="40">
-
-        <label>موقعیت افقی تصویر: <span id="imgXVal">50%</span></label>
-        <input type="range" id="imgX" min="0" max="100" value="50">
-
-        <label>موقعیت عمودی تصویر: <span id="imgYVal">50%</span></label>
-        <input type="range" id="imgY" min="0" max="100" value="50">
-      </div>
-    </div>
-
-    <div class="settings-row">
-      <label>👀 پیش‌نمایش برگه <span class="hint">(روی برگه کلیک کن تا عکس رو همونجا بذاری)</span></label>
-      <div class="mini-preview" id="miniPreview">
-        <div class="mini-page" id="miniPage">
-          <div class="mini-text" id="miniText"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="settings-row">
-      <button id="saveBtn" class="btn-main btn-save">💾 ذخیره این صفحه</button>
-    </div>
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>
