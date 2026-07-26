@@ -7,12 +7,10 @@ const pages = [
     image: { src: "IMG_20260604_192823_086.jpg", width: 55, x: 50, y: 55 }
   },
   {
-    text: "سلام تولدت مبارک🫠💕\n\nخیلی شرمنده‌ام که نتوانستم هدیه‌ای در خورِ تو بخرم، اما بدان که تمام آرزوهای قشنگم را در یک کلام برایت هدیه می‌کنم.
-آرزو می‌کنم همیشه سرشار از سلامتی باشی، لبخندت هرگز از لبت نرود و خدا را شکر که تویی تا کنار هم بمانیم و عاشق‌ترین روزهای عمرمان را بسازیم.
-دوستت دارم بیش از آنچه که کلمات توان بیانش را داشته باشند... به اندازه تمام دنیا و حتی فراتر از آن:kiss:♥️",
+    text: "سلام تولدت مبارک🫠💕\n\nببخش که نتونستم هدیه خوبی بهت بدم، آرزو می‌کنم همیشه سالم باشی و با هم پایدار باشیم، دوست دارم یه دنیا💋♥️",
     lang: 'fa',
     fontSize: 19,
-    image: { src: "IMG_20260620_015105_532.jpg", width: 45, x: 50, y: 80 }
+    image: { src: "IMG_20260604_192823_086.jpg", width: 45, x: 50, y: 80 }
   }
 ];
 
@@ -44,7 +42,7 @@ function renderBook(){
         <span class="cover-hearts h1">💗</span>
         <span class="cover-hearts h2">💕</span>
         <span class="cover-hearts h3">💖</span>
-        <div class="cover-unicorn">🦄   </div>
+        <div class="cover-unicorn">🦄</div>
         <div class="cover-clouds">☁️ ☁️ ☁️</div>
       `;
       pageEl.appendChild(decor);
