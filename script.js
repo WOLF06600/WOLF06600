@@ -10,7 +10,7 @@ const pages = [
     text: "سلام تولدت مبارک🫠💕\n\nببخش که نتونستم هدیه خوبی بهت بدم، آرزو می‌کنم همیشه سالم باشی و با هم پایدار باشیم، دوست دارم یه دنیا💋♥️",
     lang: 'fa',
     fontSize: 19,
-    image: { src: "IMG_20260604_192823_086.jpg", width: 45, x: 50, y: 80 }
+    image: { src: "IMG_20260620_015105_532.jpg", width: 45, x: 50, y: 80 }
   }
 ];
 
@@ -42,7 +42,7 @@ function renderBook(){
         <span class="cover-hearts h1">💗</span>
         <span class="cover-hearts h2">💕</span>
         <span class="cover-hearts h3">💖</span>
-        <div class="cover-unicorn">🦄</div>
+        <div class="cover-unicorn">🦄   </div>
         <div class="cover-clouds">☁️ ☁️ ☁️</div>
       `;
       pageEl.appendChild(decor);
