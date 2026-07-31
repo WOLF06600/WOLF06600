@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WOLF X - Room</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+
+:root{
+--cyan:#00f7ff;
+--pink:#ff0088;
+--blue:#0040ff;
+--dark:#080814;
+--card:#0d0d1e;
+--glass:rgba(12,12,28,.7);
+}
+
+body{
+background:var(--dark);
+color:#fff;
+height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+}
+
+/* ── animated bg ── */
+body::before{
+content:'';
+position:fixed;inset:0;
+background:
+  radial-gradient(ellipse 60% 50% at 20% 50%,rgba(0,64,255,.18) 0%,transparent 70%),
+  radial-gradient(ellipse 50% 50% at 80% 30%,rgba(255,0,136,.12) 0%,transparent 70%),
+  radial-gradient(ellipse 40% 60% at 50% 90%,rgba(0,247,255,.08) 0%,transparent 70%);
+pointer-events:none;
+z-index:0;
+}
+body>*{position:relative;z-index:1;}
+
+/* ══════════════ HEADER ══════════════ */
+header{
+height:60px;
+background:rgba(5,5,15,.85);
+backdrop-filter:blur(24px);
+border-bottom:1px solid rgba(0,247,255,.25);
+display:flex;align-items:center;justify-content:space-between;
+padding:0 20px;
+flex-shrink:0;
+box-shadow:0 2px 40px rgba(0,247,255,.1);
+}
+.logo{
+display:flex;align-items:center;gap:10px;
+font-size:20px;font-weight:900;letter-spacing:2px;
+color:var(--cyan);
+text-shadow:0 0 20px var(--cyan);
+}
+.logo-wolf{font-size:24px;}
+
+.now-playing{
+display:flex;align-items:center;gap:8px;
+font-size:12px;color:#888;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.1);
+border-radius:20px;padding:5px 14px;
+max-width:360px;overflow:hidden;
+}
+.now-playing .dot{
+width:7px;height:7px;border-radius:50%;
+background:var(--pink);
+box-shadow:0 0 8px var(--pink);
+animation:blink 1.2s infinite;
+flex-shrink:0;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.now-playing .track{
+color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+font-size:12px;
+}
+
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.hbtn{
+display:flex;align-items:center;gap:6px;
+padding:7px 16px;border-radius:22px;font-size:13px;font-weight:700;
+cursor:pointer;border:1.5px solid;transition:.22s;white-space:nowrap;
+}
+.hbtn-movie{border-color:var(--cyan);color:var(--cyan);background:rgba(0,247,255,.08);}
+.hbtn-movie:hover{background:var(--cyan);color:#000;box-shadow:0 0 22px var(--cyan);}
+.hbtn-back{border-color:var(--pink);color:var(--pink);background:rgba(255,0,136,.08);}
+.hbtn-back:hover{background:var(--pink);color:#fff;box-shadow:0 0 22px var(--pink);}
+
+/* ══════════════ MAIN ══════════════ */
+.main{
+flex:1;display:flex;overflow:hidden;
+}
+
+/* ── VIDEO AREA ── */
+.video-area{
+flex:1;display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+padding:16px 20px;gap:12px;
+min-width:0;
+}
+
+.video-box{
+width:100%;max-width:1000px;
+position:relative;
+border-radius:18px;overflow:hidden;
+border:1.5px solid rgba(0,247,255,.3);
+box-shadow:
+  0 0 0 1px rgba(0,247,255,.08),
+  0 0 50px rgba(0,247,255,.12),
+  0 8px 40px rgba(0,0,0,.7);
+background:#000;
+}
+.video-box video{
+width:100%;display:block;border-radius:18px;
+}
+.video-placeholder{
+aspect-ratio:16/9;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;gap:18px;
+background:linear-gradient(135deg,#050510,#0a0a20);
+}
+.vp-icon{
+font-size:72px;
+filter:drop-shadow(0 0 20px rgba(0,247,255,.4));
+animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.vp-text{color:#555;font-size:14px;text-align:center;line-height:1.8;}
+.vp-cta{
+color:var(--cyan);font-weight:700;
+background:rgba(0,247,255,.1);
+border:1px solid rgba(0,247,255,.3);
+border-radius:22px;padding:8px 20px;
+cursor:pointer;transition:.2s;
+font-size:13px;
+}
+.vp-cta:hover{background:var(--cyan);color:#000;box-shadow:0 0 18px var(--cyan);}
+
+/* progress bar under video */
+.video-controls-bar{
+width:100%;max-width:1000px;
+display:flex;align-items:center;justify-content:space-between;
+gap:12px;padding:0 4px;
+}
+.vc-label{font-size:12px;color:#555;min-width:60px;text-align:center;}
+.vol-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#888;}
+.vol-row input[type=range]{
+width:80px;accent-color:var(--cyan);
+}
+
+/* ══════════════ SIDEBAR ══════════════ */
+.sidebar{
+width:310px;flex-shrink:0;
+display:flex;flex-direction:column;
+background:rgba(8,8,20,.75);
+backdrop-filter:blur(20px);
+border-right:1px solid rgba(255,0,136,.2);
+box-shadow:-2px 0 30px rgba(255,0,136,.08);
+}
+
+/* sidebar tabs */
+.stabs{
+display:flex;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.stab{
+flex:1;padding:14px 0;text-align:center;
+font-size:12px;font-weight:700;color:#555;
+cursor:pointer;transition:.2s;
+border-bottom:2px solid transparent;
+}
+.stab.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.stab:hover{color:#aaa;}
+
+/* viewers list */
+.tab-panel{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.tab-panel.active{display:flex;}
+
+/* chat */
+.chat-msgs{
+flex:1;overflow-y:auto;
+padding:12px;display:flex;flex-direction:column;gap:8px;
+}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:rgba(0,64,255,.5);border-radius:3px;}
+
+.msg{display:flex;gap:8px;align-items:flex-end;}
+.msg.me{flex-direction:row-reverse;}
+.msg-av{
+width:28px;height:28px;border-radius:50%;
+background:linear-gradient(135deg,var(--blue),var(--cyan));
+display:flex;align-items:center;justify-content:center;
+font-size:13px;flex-shrink:0;border:1px solid rgba(0,247,255,.3);
+}
+.msg-body{max-width:78%;}
+.msg-name{font-size:10px;color:#555;margin-bottom:3px;padding:0 4px;}
+.msg.me .msg-name{text-align:right;}
+.msg-bubble{
+padding:8px 12px;border-radius:14px;
+font-size:13px;line-height:1.5;word-break:break-word;
+}
+.msg.other .msg-bubble{
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,255,255,.08);
+border-bottom-left-radius:3px;
+}
+.msg.me .msg-bubble{
+background:linear-gradient(135deg,rgba(0,64,255,.6),rgba(0,100,255,.4));
+border:1px solid rgba(0,247,255,.2);
+border-bottom-right-radius:3px;
+}
+.msg-time{font-size:9px;color:#333;margin-top:3px;padding:0 4px;text-align:left;}
+.msg.me .msg-time{text-align:right;}
+
+.chat-input{
+padding:10px;border-top:1px solid rgba(255,255,255,.06);
+display:flex;gap:8px;
+}
+.chat-input input{
+flex:1;background:rgba(255,255,255,.06);
+border:1px solid rgba(0,64,255,.3);border-radius:22px;
+padding:9px 14px;color:#fff;font-size:13px;outline:none;
+}
+.chat-input input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,247,255,.15);}
+.chat-input button{
+background:var(--cyan);color:#000;
+border:none;border-radius:50%;
+width:36px;height:36px;font-size:16px;
+cursor:pointer;flex-shrink:0;transition:.2s;
+display:flex;align-items:center;justify-content:center;
+}
+.chat-input button:hover{box-shadow:0 0 16px var(--cyan);transform:scale(1.08);}
+
+/* viewers */
+.viewers{
+flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;
+}
+.viewer-row{
+display:flex;align-items:center;gap:10px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);border-radius:12px;
+padding:10px 12px;
+}
+.viewer-av{
+width:36px;height:36px;border-radius:50%;
+background:linear-gradient(135deg,var(--blue),var(--pink));
+display:flex;align-items:center;justify-content:center;
+font-size:16px;flex-shrink:0;
+}
+.viewer-info .vname{font-size:13px;font-weight:700;}
+.viewer-info .vhandle{font-size:11px;color:#555;}
+
+/* ══════════════ MOVIE OVERLAY ══════════════ */
+.overlay{
+position:fixed;inset:0;
+background:rgba(0,0,10,.85);
+backdrop-filter:blur(8px);
+display:none;align-items:center;justify-content:center;
+z-index:200;
+}
+.overlay.open{display:flex;}
+
+.mpanel{
+width:min(920px,95vw);
+max-height:88vh;
+background:#0a0a1a;
+border:1.5px solid rgba(0,247,255,.25);
+border-radius:24px;
+box-shadow:0 0 80px rgba(0,247,255,.15),0 0 0 1px rgba(0,247,255,.05);
+display:flex;flex-direction:column;overflow:hidden;
+}
+
+.mpanel-head{
+padding:18px 22px;
+background:linear-gradient(135deg,rgba(0,64,255,.12),rgba(0,247,255,.05));
+border-bottom:1px solid rgba(0,247,255,.12);
+display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.mpanel-head h2{
+font-size:18px;color:var(--cyan);font-weight:900;
+text-shadow:0 0 16px var(--cyan);letter-spacing:1px;
+flex-shrink:0;
+}
+.searchbox{
+flex:1;min-width:180px;
+display:flex;align-items:center;gap:8px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(0,64,255,.35);border-radius:30px;
+padding:7px 16px;transition:.2s;
+}
+.searchbox:focus-within{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,247,255,.2);}
+.searchbox svg{width:15px;height:15px;stroke:#555;flex-shrink:0;}
+.searchbox input{
+flex:1;background:none;border:none;outline:none;
+color:#fff;font-size:13px;
+}
+.searchbox input::placeholder{color:#444;}
+.mclose{
+margin-right:0;margin-left:auto;
+font-size:20px;cursor:pointer;color:#ff3b3b;line-height:1;
+transition:.2s;flex-shrink:0;
+}
+.mclose:hover{text-shadow:0 0 14px #ff3b3b;transform:scale(1.2);}
+
+.mgrid{
+flex:1;overflow-y:auto;
+padding:18px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+gap:14px;
+}
+.mgrid::-webkit-scrollbar{width:4px;}
+.mgrid::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px;}
+
+.mcard{
+border-radius:14px;overflow:hidden;cursor:pointer;
+border:1.5px solid rgba(0,64,255,.3);
+background:var(--card);
+transition:.28s cubic-bezier(.4,0,.2,1);
+position:relative;
+}
+.mcard:hover{
+transform:translateY(-4px) scale(1.03);
+border-color:var(--cyan);
+box-shadow:0 8px 32px rgba(0,247,255,.25),0 0 0 1px rgba(0,247,255,.1);
+}
+.mcard:hover .mplay{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.mthumb{
+width:100%;aspect-ratio:16/9;object-fit:cover;
+background:linear-gradient(135deg,#050510,#0d0d22);
+display:flex;align-items:center;justify-content:center;
+font-size:34px;
+}
+.mthumb img{width:100%;height:100%;object-fit:cover;}
+.mplay{
+position:absolute;top:38%;left:50%;
+transform:translate(-50%,-50%) scale(.85);
+opacity:0;transition:.22s;
+background:rgba(0,0,20,.75);
+border:2px solid var(--cyan);
+border-radius:50%;width:46px;height:46px;
+display:flex;align-items:center;justify-content:center;
+}
+.mplay svg{width:20px;height:20px;fill:var(--cyan);}
+.minfo{padding:10px 10px 12px;}
+.mtitle{
+font-size:12px;font-weight:700;color:#ddd;
+white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.mnone{
+grid-column:1/-1;text-align:center;
+padding:60px 0;color:#333;font-size:16px;
+display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.mnone .big{font-size:52px;}
+
+/* ══════════════ FULL PLAYER ══════════════ */
+.fplayer{
+position:fixed;inset:0;
+background:rgba(0,0,8,.97);
+display:none;flex-direction:column;
+align-items:center;justify-content:center;
+gap:16px;z-index:300;padding:20px;
+}
+.fplayer.open{display:flex;}
+.fptitle{
+font-size:16px;color:var(--cyan);
+text-shadow:0 0 14px var(--cyan);
+font-weight:700;letter-spacing:.5px;
+}
+.fplayer video{
+width:100%;max-width:1000px;
+border-radius:16px;
+border:1.5px solid rgba(0,247,255,.4);
+box-shadow:0 0 60px rgba(0,247,255,.2);
+}
+.fpclose{
+position:absolute;top:18px;right:20px;
+font-size:24px;color:#ff3b3b;cursor:pointer;
+transition:.2s;line-height:1;
+}
+.fpclose:hover{text-shadow:0 0 18px #ff3b3b;transform:scale(1.2);}
+
+/* ══════════════ TOAST ══════════════ */
+.toast{
+position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+background:rgba(5,5,20,.95);
+border:1px solid rgba(0,247,255,.35);
+color:#fff;padding:10px 24px;border-radius:30px;
+box-shadow:0 0 24px rgba(0,247,255,.2);
+z-index:400;display:none;font-size:13px;
+white-space:nowrap;
+}
+/* ══ FRIEND REQUEST POPUP ══ */
+.freq-popup{
+position:fixed;
+bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
+opacity:0;
+background:rgba(255,255,255,.07);
+backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+border:1px solid rgba(0,247,255,.3);
+border-radius:24px;padding:20px 24px;
+display:flex;align-items:center;gap:16px;
+box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.2);
+z-index:400;min-width:320px;
+transition:all .5s cubic-bezier(.34,1.56,.64,1);
+}
+.freq-popup.visible{
+transform:translateX(-50%) translateY(0);
+opacity:1;
+}
+.freq-avatar{
+width:48px;height:48px;border-radius:50%;
+background:linear-gradient(135deg,#0040ff,#00f7ff);
+display:flex;align-items:center;justify-content:center;
+font-size:22px;flex-shrink:0;
+border:2px solid rgba(0,247,255,.4);
+box-shadow:0 0 20px rgba(0,247,255,.3);
+}
+.freq-info{flex:1;}
+.freq-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px;}
+.freq-msg{font-size:11px;color:rgba(255,255,255,.4);}
+.freq-timer-bar{
+position:absolute;bottom:0;left:0;
+height:3px;border-radius:0 0 24px 24px;
+background:linear-gradient(90deg,var(--blue),var(--cyan));
+transition:width linear;width:100%;
+}
+.freq-accept{
+padding:10px 18px;border-radius:14px;border:none;
+background:linear-gradient(135deg,#f5c542,#ff9500);
+color:#000;font-weight:900;font-size:13px;
+cursor:pointer;flex-shrink:0;transition:.2s;
+}
+.freq-accept:hover{box-shadow:0 0 20px rgba(245,197,66,.5);transform:scale(1.05);}
+.freq-decline{
+padding:10px 14px;border-radius:14px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.1);
+color:rgba(255,255,255,.4);font-size:13px;
+cursor:pointer;flex-shrink:0;transition:.2s;
+}
+.freq-decline:hover{background:rgba(255,59,59,.2);color:#ff6b6b;}
+
+@keyframes shake{0%,100%{transform:translateX(-50%)}20%,60%{transform:translateX(calc(-50% - 6px))}40%,80%{transform:translateX(calc(-50% + 6px))}}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+<div class="logo"><span class="logo-wolf">🐺</span> WOLF X</div>
+
+<div class="now-playing" id="nowPlayingBar" style="display:none;">
+<span class="dot"></span>
+<span class="track" id="nowPlayingText">در حال پخش</span>
+</div>
+
+<div class="hdr-right">
+<div class="hbtn hbtn-movie" onclick="openLib()">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>
+فیلم‌ها
+</div>
+<div class="hbtn" style="border-color:rgb(141,252,133);color:rgb(141,252,133);background:rgba(141,252,133,.08);" onclick="sendFriendRequest()" title="درخواست دوستی برای دیگران در اتاق">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+➕ درخواست دوستی
+</div>
+<div class="hbtn hbtn-back" onclick="history.back()">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+بازگشت
+</div>
+</div>
+</header>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+<!-- VIDEO -->
+<div class="video-area">
+<div class="video-box" id="videoBox">
+<div class="video-placeholder" id="vph">
+<div class="vp-icon">🎬</div>
+<div class="vp-text">هنوز فیلمی انتخاب نشده<br>از کتابخانه یک فیلم بردارید</div>
+<div class="vp-cta" onclick="openLib()">🎬 باز کردن فیلم‌ها</div>
+</div>
+<video id="mainVid" controls style="display:none;"></video>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<div class="stabs">
+<div class="stab active" onclick="switchTab('chat',this)">💬 چت</div>
+<div class="stab" onclick="switchTab('viewers',this)">👥 بینندگان</div>
+</div>
+
+<!-- CHAT TAB -->
+<div class="tab-panel active" id="tab-chat">
+<div class="chat-msgs" id="chatMsgs">
+<div class="msg other">
+<div class="msg-av">🐺</div>
+<div class="msg-body">
+<div class="msg-name">WOLF X</div>
+<div class="msg-bubble">خوش آمدید! از بخش فیلم‌ها فیلم انتخاب کنید 🎬</div>
+<div class="msg-time">الان</div>
+</div>
+</div>
+</div>
+<div class="chat-input">
+<input id="chatIn" type="text" placeholder="پیام بنویسید..." onkeydown="if(event.key==='Enter')sendMsg()">
+<button onclick="sendMsg()">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+</button>
+</div>
+</div>
+
+<!-- VIEWERS TAB -->
+<div class="tab-panel" id="tab-viewers">
+<div class="viewers" id="viewersList">
+<div class="viewer-row">
+<div class="viewer-av">👑</div>
+<div class="viewer-info">
+<div class="vname">شما</div>
+<div class="vhandle">بیننده اصلی</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ── FRIEND REQUEST POPUP ── -->
+<div class="freq-popup" id="freqPopup">
+<div class="freq-avatar" id="freqAvatar">👤</div>
+<div class="freq-info">
+<div class="freq-name" id="freqName">کاربر جدید</div>
+<div class="freq-msg">وارد اتاق شد — درخواست دوستی؟</div>
+</div>
+<button class="freq-accept" onclick="acceptFreq()">✓ قبول</button>
+<button class="freq-decline" onclick="declineFreq()">✕</button>
+<div class="freq-timer-bar" id="freqTimer"></div>
+</div>
+
+<!-- ══ MOVIE LIBRARY OVERLAY ══ -->
+<div class="overlay" id="libOverlay" onclick="outsideClose(event)">
+<div class="mpanel">
+<div class="mpanel-head">
+<h2>🎬 کتابخانه فیلم‌ها</h2>
+<div class="searchbox">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input id="searchIn" type="text" placeholder="جستجوی فیلم..." oninput="filterLib()">
+</div>
+<span class="mclose" onclick="closeLib()">✕</span>
+</div>
+<div class="mgrid" id="mgrid"></div>
+</div>
+</div>
+
+<!-- ══ FULL SCREEN PLAYER ══ -->
+<div class="fplayer" id="fplayer">
+<span class="fpclose" onclick="closeFP()">✕</span>
+<div class="fptitle" id="fptitle"></div>
+<video id="fpvid" controls autoplay></video>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* shared DB */
+const getDB=()=>{try{return JSON.parse(localStorage.getItem("wolfx_db")||"{}")}catch{return{}}};
+
+/* IndexedDB */
+const IDB="wolfx_idb",ST="videos";let _db=null;
+const openIDB=()=>new Promise((r,j)=>{if(_db){r(_db);return;}const q=indexedDB.open(IDB,1);q.onupgradeneeded=e=>e.target.result.createObjectStore(ST);q.onsuccess=e=>{_db=e.target.result;r(_db);};q.onerror=()=>j(q.error);});
+const idbGet=id=>openIDB().then(db=>new Promise((r,j)=>{const q=db.transaction(ST,"readonly").objectStore(ST).get(id);q.onsuccess=()=>r(q.result||null);q.onerror=()=>j(q.error);}));
+
+/* toast */
+let _tt;
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.style.display="block";clearTimeout(_tt);_tt=setTimeout(()=>t.style.display="none",2600);}
+
+/* tabs */
+function switchTab(name,el){
+  document.querySelectorAll(".stab").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("tab-"+name).classList.add("active");
+}
+
+/* chat */
+function sendMsg(){
+  const inp=document.getElementById("chatIn");
+  const txt=inp.value.trim();if(!txt)return;
+  const db=getDB();
+  const name=db.profile?.username?"@"+db.profile.username:"شما";
+  const box=document.getElementById("chatMsgs");
+  const now=new Date().toLocaleString("fa-IR",{hour:"2-digit",minute:"2-digit"});
+  const div=document.createElement("div");
+  div.className="msg me";
+  div.innerHTML=`<div class="msg-av" style="background:linear-gradient(135deg,#00f,#0ff)">😊</div><div class="msg-body"><div class="msg-name">${name}</div><div class="msg-bubble">${txt}</div><div class="msg-time">${now}</div></div>`;
+  box.appendChild(div);box.scrollTop=box.scrollHeight;inp.value="";
+}
+
+/* movie lib */
+let allM=[];
+function loadLib(){const db=getDB();allM=db.movieLibrary||[];}
+
+function openLib(){
+  loadLib();
+  document.getElementById("searchIn").value="";
+  document.getElementById("libOverlay").classList.add("open");
+  render(allM);
+}
+function closeLib(){document.getElementById("libOverlay").classList.remove("open");}
+function outsideClose(e){if(e.target.id==="libOverlay")closeLib();}
+function filterLib(){
+  const q=document.getElementById("searchIn").value.trim().toLowerCase();
+  render(q?allM.filter(m=>m.name.toLowerCase().includes(q)):allM);
+}
+
+function render(list){
+  const g=document.getElementById("mgrid");g.innerHTML="";
+  if(!list.length){
+    g.innerHTML=`<div class="mnone"><div class="big">🎬</div><div>فیلمی پیدا نشد</div><div style="font-size:13px;color:#333;">مدیر هنوز فیلمی اضافه نکرده</div></div>`;
+    return;
+  }
+  list.forEach(m=>{
+    const c=document.createElement("div");c.className="mcard";
+    c.onclick=()=>pickMovie(m);
+    const thumb=m.thumb
+      ?`<div class="mthumb"><img src="${m.thumb}" onerror="this.parentNode.innerHTML='🎬'"></div>`
+      :`<div class="mthumb">🎬</div>`;
+    c.innerHTML=`${thumb}<div class="mplay"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><div class="minfo"><div class="mtitle">${m.name}</div></div>`;
+    g.appendChild(c);
+  });
+}
+
+async function pickMovie(m){
+  closeLib();
+  toast("⏳ در حال بارگذاری فیلم...");
+  try{
+    const blob=await idbGet(m.id);
+    if(!blob){toast("⚠ فیلم در این مرورگر ذخیره نشده. لطفاً با مدیر تماس بگیرید.");return;}
+    const url=URL.createObjectURL(blob);
+    /* set main vid */
+    const v=document.getElementById("mainVid");
+    document.getElementById("vph").style.display="none";
+    v.style.display="block";v.src=url;
+    /* now-playing bar */
+    document.getElementById("nowPlayingBar").style.display="flex";
+    document.getElementById("nowPlayingText").textContent=m.name;
+    /* open full player */
+    document.getElementById("fptitle").textContent="🎬  "+m.name;
+    document.getElementById("fpvid").src=url;
+    document.getElementById("fplayer").classList.add("open");
+    toast("✅ "+m.name);
+  }catch(e){toast("خطا: "+e.message);}
+}
+
+function closeFP(){
+  const v=document.getElementById("fpvid");
+  v.pause();
+  document.getElementById("fplayer").classList.remove("open");
+}
+
+/* profile viewer */
+(function(){
+  const db=getDB();
+  if(db.profile?.name||db.profile?.username){
+    const list=document.getElementById("viewersList");
+    const name=db.profile.name||"کاربر";
+    const handle=db.profile.username?"@"+db.profile.username:"";
+    list.innerHTML=`<div class="viewer-row"><div class="viewer-av">${db.profile.avatar?`<img src="${db.profile.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">`:"😊"}</div><div class="viewer-info"><div class="vname">${name}</div><div class="vhandle">${handle}</div></div></div>`;
+  }
+})();
+
+/* ── FRIEND REQUEST SYSTEM ── */
+const FREQ_DURATION = 50000;
+let _freqTimer = null, _freqPending = null;
+
+function showFriendRequest(user){
+  clearTimeout(_freqTimer);
+  _freqPending = user;
+  document.getElementById("freqName").textContent = user.name;
+  document.getElementById("freqAvatar").textContent = user.avatar||"👤";
+  const popup = document.getElementById("freqPopup");
+  const bar = document.getElementById("freqTimer");
+  popup.classList.add("visible");
+  bar.style.transition="none"; bar.style.width="100%";
+  setTimeout(()=>{ bar.style.transition=`width ${FREQ_DURATION/1000}s linear`; bar.style.width="0%"; }, 50);
+  _freqTimer = setTimeout(()=>{ popup.classList.remove("visible"); _freqPending=null; }, FREQ_DURATION);
+}
+function acceptFreq(){
+  if(!_freqPending) return;
+  clearTimeout(_freqTimer);
+  document.getElementById("freqPopup").classList.remove("visible");
+  try{
+    const db=JSON.parse(localStorage.getItem("wolfx_db")||"{}");
+    if(!db.friends) db.friends=[];
+    const ip=_freqPending.ip||"room_"+Date.now();
+    if(!db.friends.some(f=>(f.ip||f)===ip)){
+      db.friends.push({ip,name:_freqPending.name,username:_freqPending.username||""});
+      localStorage.setItem("wolfx_db",JSON.stringify(db));
+    }
+  }catch(e){}
+  toast("🤝 "+_freqPending.name+" به دوستان اضافه شد");
+  _freqPending=null;
+}
+function declineFreq(){
+  clearTimeout(_freqTimer);
+  document.getElementById("freqPopup").classList.remove("visible");
+  _freqPending=null;
+}
+function sendFriendRequest(){
+  // نمایش لیست دوستانی که قبلاً قبول شده‌اند
+  try{
+    const db = JSON.parse(localStorage.getItem("wolfx_db")||"{}");
+    const friends = db.friends||[];
+    if(friends.length===0){
+      toast("هنوز دوستی اضافه نکرده‌اید — ابتدا از بخش درخواست دوستی دوست اضافه کنید");
+      return;
+    }
+    // نمایش popup انتخاب دوست
+    showFriendsInvitePanel(friends);
+  }catch(e){ toast("خطا در بارگذاری لیست دوستان"); }
+}
+
+function showFriendsInvitePanel(friends){
+  // حذف پنل قبلی اگر وجود دارد
+  const old = document.getElementById("friendsInvitePanel");
+  if(old) old.remove();
+
+  const panel = document.createElement("div");
+  panel.id="friendsInvitePanel";
+  panel.style.cssText=`
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:min(340px,90vw);
+    background:rgba(8,8,20,.95);
+    backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+    border:1px solid rgba(255,255,255,.14);border-radius:24px;
+    padding:24px;z-index:500;
+    box-shadow:0 40px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.15);
+  `;
+  panel.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-size:16px;font-weight:900;color:#fff;">👥 دعوت دوستان</span>
+      <span onclick="this.parentNode.parentNode.remove()" style="cursor:pointer;color:#ff6b6b;font-size:20px;">✕</span>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:14px;">یک دوست را برای دعوت به اتاق انتخاب کنید</p>
+    ${friends.map(f=>{
+      const ip = f.ip||f;
+      const name = f.name||"دوست";
+      const handle = f.username?"@"+f.username:"";
+      return `<div onclick="inviteFriend('${ip}','${name}');this.parentNode.parentNode.remove();" style="
+        display:flex;align-items:center;gap:12px;
+        background:rgba(255,255,255,.04);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:14px;padding:12px 14px;margin-bottom:8px;
+        cursor:pointer;transition:.2s;
+      " onmouseover="this.style.borderColor='rgba(141,252,133,.4)';this.style.background='rgba(141,252,133,.06)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0040ff,#00f7ff);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👤</div>
+        <div>
+          <div style="color:#fff;font-weight:700;font-size:14px;">${name}</div>
+          <div style="color:rgba(0,247,255,.6);font-size:11px;">${handle||ip}</div>
+        </div>
+        <span style="margin-right:auto;font-size:20px;color:rgb(141,252,133);">➕</span>
+      </div>`;
+    }).join("")}
+  `;
+  document.body.appendChild(panel);
+}
+
+function inviteFriend(ip, name){
+  // در حالت واقعی این یک درخواست به سرور می‌فرستد
+  // اینجا یک پیام محلی ثبت می‌کند
+  try{
+    const db = JSON.parse(localStorage.getItem("wolfx_db")||"{}");
+    if(!db.messages) db.messages=[];
+    db.messages.unshift({
+      id:"msg_"+Date.now(), type:"system", title:"دعوت به اتاق",
+      body:`شما ${name} را به اتاق دعوت کردید.`,
+      code:null,
+      time: new Date().toLocaleString("fa-IR",{hour:"2-digit",minute:"2-digit"})
+    });
+    localStorage.setItem("wolfx_db",JSON.stringify(db));
+  }catch(e){}
+  toast("📨 دعوت‌نامه برای "+name+" ارسال شد");
+}
+
+function simulateNewViewer(){
+  const names=["علی","رضا","سارا","مریم","حسن","کاربر جدید"];
+  const name=names[Math.floor(Math.random()*names.length)];
+  const list=document.getElementById("viewersList");
+  const row=document.createElement("div"); row.className="viewer-row";
+  row.innerHTML=`<div class="viewer-av" style="background:linear-gradient(135deg,#ff0088,#ff8800)">👤</div><div class="viewer-info"><div class="vname">${name}</div><div class="vhandle">تازه وارد شد</div></div>`;
+  list.appendChild(row);
+  showFriendRequest({name,username:"",avatar:"👤"});
+}
+
+loadLib();
+</script>
+</body>
+</html>
+<div class="55550144"></div>
