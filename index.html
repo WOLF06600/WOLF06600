@@ -1,65 +1,192 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>❤️⭐فقت خاستم چنتا چی بهت بگم⭐❤️</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=Lalezar&family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>WOLF X Login</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+direction:rtl;
+color:#fff;
+overflow:hidden;
+}
+
+/* ویدیو پس‌زمینه */
+#bg-video{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+}
+
+/* لایه تیره */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.55);
+z-index:-1;
+}
+
+.container{
+
+width:420px;
+max-width:90%;
+
+padding:40px;
+text-align:center;
+
+background:rgba(20,20,20,.45);
+
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+
+border:1px solid rgba(0,247,255,.5);
+border-radius:22px;
+
+box-shadow:
+0 0 25px rgba(0,247,255,.45),
+0 0 50px rgba(0,0,0,.6);
+
+animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+h1{
+font-size:42px;
+margin-bottom:15px;
+color:#00f7ff;
+text-shadow:0 0 15px #00f7ff;
+}
+
+p{
+margin-bottom:25px;
+color:#ddd;
+}
+
+input{
+
+width:100%;
+padding:15px;
+margin:10px 0;
+
+border:none;
+border-radius:12px;
+
+outline:none;
+
+background:rgba(255,255,255,.12);
+color:#fff;
+font-size:16px;
+
+}
+
+input::placeholder{
+color:#ddd;
+}
+
+button{
+
+width:100%;
+padding:15px;
+margin-top:15px;
+
+border:none;
+border-radius:12px;
+
+background:linear-gradient(135deg,#00f7ff,#005eff);
+
+color:#fff;
+
+font-size:18px;
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:0 0 20px rgba(0,247,255,.45);
+
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 0 35px #00f7ff;
+}
+
+button:active{
+transform:scale(.98);
+}
+
+a{
+text-decoration:none;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div class="sky">
-  <div class="cloud c1"></div>
-  <div class="cloud c2"></div>
-  <div class="cloud c3"></div>
-  <div class="sparkle s1">✨</div>
-  <div class="sparkle s2">✨</div>
-  <div class="sparkle s3">✨</div>
-  <div class="petal p1">🌸</div>
-  <div class="petal p2">🌸</div>
-  <div class="petal p3">🌸</div>
-  <div class="petal p4">💗</div>
-  <div class="petal p5">🌸</div>
-  <div class="petal p6">💗</div>
+<video autoplay muted loop playsinline id="bg-video">
+<source src="InShot_20260701_102019610 (6).mp4" type="video/mp4">
+</video>
 
-   <div class="sparkle s1">✨</div>
-  <div class="sparkle s2">✨</div>
-  <div class="sparkle s3">✨</div>
-  <div class="petal p1">🌸</div>
-  <div class="petal p2">🌸</div>
-  <div class="petal p3">🌸</div>
-  <div class="petal p4">💗</div>
-  <div class="petal p5">🌸</div>
-  <div class="petal p6">💗</div>
+<div class="overlay"></div>
+
+<div class="container">
+
+<h1>🐺 WOLF X</h1>
+
+<p>ورود به باشگاه اختصاصی</p>
+
+<input type="text" placeholder="نام کاربری">
+
+<input type="password" placeholder="رمز عبور">
+
+<input type="text" placeholder="کلمه امنیتی">
+
+<a href="rooms.html">
+<button>🚀 ورود</button>
+</a>
+
 </div>
 
-<main class="stage">
-  <h1 class="title">❤️⭐فقت خاستم چنتا چی بهت بگم⭐❤️</h1>
-  <div class="ribbon-bookmark"></div>
-
-  <div id="book" class="book">
-    <div class="spiral" id="spiral"></div>
-    <div class="pages-wrap" id="pagesWrap">
-      <!-- pages injected by JS -->
-    </div>
-
-    <div class="nav-group nav-group-prev">
-      <button id="prevBtn" class="nav-charm nav-prev">❯</button>
-      <span class="nav-label">قبل</span>
-    </div>
-    <div class="nav-group nav-group-next">
-      <button id="nextBtn" class="nav-charm nav-next">❮</button>
-      <span class="nav-label">بعد</span>
-    </div>
-  </div>
-
-  <div class="page-indicator" id="pageIndicator">صفحه ۱ از ۱</div>
-</main>
-
 <script src="script.js"></script>
+
 </body>
 </html>
